@@ -69,10 +69,10 @@ public final class QueryUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "makeHttpRequest: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, "makeHttpRequest URL response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "makeHttpRequest: ", e);
+            Log.e(LOG_TAG, "makeHttpRequest: URL did not connect", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -81,7 +81,7 @@ public final class QueryUtils {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, "makeHttpRequest: ", e);
+                    Log.e(LOG_TAG, "makeHttpRequest inputStream did not close: ", e);
                 }
             }
         }
@@ -129,7 +129,6 @@ public final class QueryUtils {
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
-
             //Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(earthquakeJSON);
 

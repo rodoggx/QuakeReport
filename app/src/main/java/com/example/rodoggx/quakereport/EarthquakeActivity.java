@@ -16,7 +16,6 @@ public class EarthquakeActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = EarthquakeActivity.class.getName();
     private static final String USGS_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
-    private static final int EARTHQUAKE_ID = 1;
     private EarthquakeAdapter adapter;
 
     @Override
@@ -33,6 +32,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
