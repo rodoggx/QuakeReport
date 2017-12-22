@@ -73,6 +73,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        //data is loaded, hide progressbar
+        View progressBar = findViewById(R.id.progress);
+        progressBar.setVisibility(View.GONE);
+
+        //set empty state text
         emptyStateTextView.setTextSize(R.string.no_earthquakes);
         //clear the adapter
         adapter.clear();
