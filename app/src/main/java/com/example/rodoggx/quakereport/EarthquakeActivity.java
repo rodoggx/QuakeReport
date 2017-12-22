@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     private static final String USGS_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
     private static final int LOADER_ID = 1;
     private EarthquakeAdapter adapter;
+    private TextView emptyStateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
+        emptyStateTextView = (TextView) findViewById(R.id.empty);
+        earthquakeListView.setEmptyView(emptyStateTextView);
+
         // Create a new {@link ArrayAdapter} that takes an empty list of earthquakes
         adapter = new EarthquakeAdapter(this, 0, new ArrayList<Earthquake>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
-
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,6 +73,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        emptyStateTextView.setTextSize(R.string.no_earthquakes);
         //clear the adapter
         adapter.clear();
         //check for earthquake list, add them to the adapter
