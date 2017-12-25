@@ -3,4 +3,9 @@
     <string name="near_the">Near the</string>
     <string name="no_earthquakes">No earthquakes found.</string>
     <string name="no_internet">No internet connection.</string>
+    <string name="settings_item">Settings</string>
+    <string name="settings_title">Earthquake Settings</string>
+    <string name="magnitude_label">Minimum Magnitude</string>
+    <string name="magnitude_key" translatable="false">min_magnitude</string>
+    <string name="magnitude_default" translatable="false">6</string>
 </resources>
