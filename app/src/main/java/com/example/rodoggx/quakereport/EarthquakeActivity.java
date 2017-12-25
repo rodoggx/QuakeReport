@@ -4,10 +4,12 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,7 +25,7 @@ import java.util.List;
 public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Earthquake>> {
 
     private static final String LOG_TAG = EarthquakeActivity.class.getName();
-    private static final String USGS_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
+    private static final String USGS_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query";
     private static final int LOADER_ID = 1;
     private EarthquakeAdapter adapter;
     private TextView emptyStateTextView;
@@ -85,7 +87,20 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
         //create a new loader for the url
-        return new EarthquakeLoader(this, USGS_URL);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String minMagnitude = sharedPrefs.getString(
+                getString(R.string.magnitude_key),
+                getString(R.string.magnitude_default));
+        Uri baseUri = Uri.parse(USGS_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "geojson");
+        uriBuilder.appendQueryParameter("limit", "10");
+        uriBuilder.appendQueryParameter("minmag", minMagnitude);
+        uriBuilder.appendQueryParameter("orderby", "time");
+
+        return new EarthquakeLoader(this, uriBuilder.toString());
     }
 
     @Override
